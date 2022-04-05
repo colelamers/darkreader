@@ -8,6 +8,7 @@ export interface ExtensionData {
     news: News[];
     shortcuts: Shortcuts;
     colorScheme: ParsedColorSchemeConfig;
+    forcedScheme: 'dark' | 'light';
     devtools: {
         dynamicFixesText: string;
         filterFixesText: string;
@@ -16,6 +17,7 @@ export interface ExtensionData {
         hasCustomFilterFixes: boolean;
         hasCustomStaticFixes: boolean;
     };
+    activeTab: TabInfo;
 }
 
 export interface TabData {
@@ -27,7 +29,7 @@ export interface ExtensionActions {
     changeSettings(settings: Partial<UserSettings>): void;
     setTheme(theme: Partial<FilterConfig>): void;
     setShortcut(command: string, shortcut: string): void;
-    toggleURL(url: string): void;
+    toggleActiveTab(): void;
     markNewsAsRead(ids: string[]): void;
     loadConfig(options: {local: boolean}): void;
     applyDevDynamicThemeFixes(text: string): Promise<void>;
@@ -63,6 +65,7 @@ export interface Theme {
     styleSystemControls: boolean;
     lightColorScheme: string;
     darkColorScheme: string;
+    immediateModify: boolean;
 }
 
 export type FilterConfig = Theme;
@@ -99,6 +102,7 @@ export interface UserSettings {
     enableForPDF: boolean;
     enableForProtectedPages: boolean;
     enableContextMenus: boolean;
+    detectDarkTheme: boolean;
 }
 
 export interface TimeSettings {
@@ -116,6 +120,7 @@ export interface TabInfo {
     isProtected: boolean;
     isInjected: boolean;
     isInDarkList: boolean;
+    isDarkThemeDetected: boolean;
 }
 
 export interface Message {

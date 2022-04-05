@@ -10,6 +10,14 @@ text: #e8e6e3
 
 ================================
 
+Catppuccin
+
+DARK
+background: #161320
+text: #d9e0ee
+
+================================
+
 Dracula
 
 DARK
@@ -22,11 +30,11 @@ Gruvbox
 
 DARK
 background: #282828
-text: #8ec07c
+text: #ebdbb2
 
 LIGHT
 background: #fbf1c7
-text: #427b58
+text: #3c3836
 
 ================================
 
