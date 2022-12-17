@@ -43,6 +43,9 @@ type TestMessage = {
     type: 'setDataIsMigratedForTesting';
     data: boolean;
     id: number;
+} | {
+    type: 'getManifest';
+    id: number;
 };
 
 // Start extension
@@ -117,7 +120,7 @@ if (__WATCH__) {
                     chrome.tabs.query({}, (tabs) => {
                         for (const tab of tabs) {
                             if (canInjectScript(tab.url)) {
-                                chrome.tabs.sendMessage<Message>(tab.id, {type: MessageType.BG_RELOAD});
+                                chrome.tabs.sendMessage<Message>(tab.id!, {type: MessageType.BG_RELOAD});
                             }
                         }
                         chrome.runtime.reload();
@@ -157,7 +160,7 @@ if (__TEST__) {
     socket.onmessage = (e) => {
         try {
             const message: TestMessage = JSON.parse(e.data);
-            const respond = (data?: ExtensionData | string | boolean | {[key: string]: string}) => socket.send(JSON.stringify({
+            const respond = (data?: ExtensionData | string | boolean | {[key: string]: string} | null) => socket.send(JSON.stringify({
                 data,
                 id: message.id,
             }));
@@ -181,10 +184,11 @@ if (__TEST__) {
                 case 'getLocalStorage':
                     respond(localStorage ? JSON.stringify(localStorage) : null);
                     break;
-                case 'getManifest':
+                case 'getManifest': {
                     const data = chrome.runtime.getManifest();
                     respond(data);
                     break;
+                }
                 case 'changeChromeStorage': {
                     const region = message.data.region;
                     chrome.storage[region].set(message.data.data, () => respond());

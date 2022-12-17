@@ -1,9 +1,21 @@
 ## Unreleased
 
+- Only invert PDFs on mail.google.com and drive.google.com, if the setting for PDF inversion has been enabled. (#10310)
+- Show in the new UI design when a page is disabled, because it's protected by the browser. (#10338)
+- Better restore for darkreader elements, when the whole DOM is being overwritten. (#10372)
+
+## 4.9.60 (Oct 27, 2022)
+
+- Fixed broken hotkeys.
+- Improved IP v6 address support.
+
+## 4.9.59 (Oct 23, 2022)
+
 - Fixes a issue where `darkreader-fallback` wasn't removed from the DOM, when Dark Reader finds a `<meta name="darkreader-lock">` element.
-- Be stricter when the user specifies a last slash for a URL in the sitelist.
-- Hide "System" Automation on Chromium on Linux because Chromium on Linux does not support Media Queries.
-- Improve Kiwi browser support: work around for Kiwi bug in file download during settings import, fix opening open Dark Reader DevTools
+- Be stricter when the user specifies a last slash for a URL in the Site List.
+- Display a warning that "System" Automation might not work properly in Chromium on Linux and Kiwi on Android.
+- Workaround for Kiwi file download during settings import, fix opening Dark Reader DevTools.
+- A button to clear the Site List (v5 Preview UI).
 
 ## 4.9.58 (Sep 22, 2022)
 

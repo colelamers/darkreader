@@ -1,16 +1,15 @@
 import {isSystemDarkModeEnabled, runColorSchemeChangeDetector, stopColorSchemeChangeDetector} from '../utils/media-query';
 import type {Message} from '../definitions';
 import {MessageType} from '../utils/message';
-
+import {setDocumentVisibilityListener, documentIsVisible, removeDocumentVisibilityListener} from '../utils/visibility';
 
 function cleanup() {
     stopColorSchemeChangeDetector();
-    removeEventListener('visibilitychange', updateEventListeners);
-    removeEventListener('pageshow', updateEventListeners);
+    removeDocumentVisibilityListener();
 }
 
 function sendMessage(message: Message) {
-    const responseHandler = (response: 'unsupportedSender' | undefined) => {
+    const responseHandler = (response: Message | 'unsupportedSender' | undefined) => {
         // Vivaldi bug workaround. See TabManager for details.
         if (response === 'unsupportedSender') {
             cleanup();
@@ -46,13 +45,12 @@ function notifyOfColorScheme(isDark: boolean) {
 
 function updateEventListeners() {
     notifyOfColorScheme(isSystemDarkModeEnabled());
-    if (document.visibilityState === 'visible') {
+    if (documentIsVisible()) {
         runColorSchemeChangeDetector(notifyOfColorScheme);
     } else {
         stopColorSchemeChangeDetector();
     }
 }
 
-addEventListener('visibilitychange', updateEventListeners);
-addEventListener('pageshow', updateEventListeners);
+setDocumentVisibilityListener(updateEventListeners);
 updateEventListeners();
